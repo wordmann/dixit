@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jixit</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <div
+        class="cf-turnstile"
+        data-sitekey="0x4AAAAAAA48Fql_S9df_Luo"
+        data-callback="javascriptCallback"
+    ></div>
+
+    <form method="POST" action="/handler">
+        <h2 class="h3 mb-3 fw-normal">Turnstile &dash; Dummy Login Demo</h2>
+    
+        <div class="form-floating">
+          <input type="text" id="user" class="form-control">
+          <label for="user">User name</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" id="pass" class="form-control" autocomplete="off" readonly value="CorrectHorseBatteryStaple">
+          <label for="pass">Password (dummy)</label>
+        </div>
+    
+        <div class="checkbox mb-3">
+          <!-- The following line controls and configures the Turnstile widget. -->
+          <div class="cf-turnstile" data-sitekey="0x4AAAAAAA48Fql_S9df_Luo" data-theme="light"></div>
+          <!-- end. -->
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted"><a href="https://github.com/cloudflare/turnstile-demo-workers"><i class="bi bi-github"></i> See code</a></p>
+        <p class="mt-5 mb-3 text-muted">Go to the <a href="/explicit">explicit render demo</a></p>
+      </form>
+
+    <button id="play_button">Gioca</button>
+
+    <div id="global_leaderboard"></div>
+    <div id="local_leaderboard"></div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

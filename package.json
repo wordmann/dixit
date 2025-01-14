@@ -1,0 +1,21 @@
+{
+  "name": "jixit",
+  "version": "1.0.0",
+  "main": "back.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "docker start postgres-dixit && npx tsc && node back.js"
+  },
+  "author": "Simone Arena, Angelo Cecchino, Abigail Bianchi, Pietro Stenta",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.2",
+    "path": "^0.12.7",
+    "pg": "^8.13.1",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0"
+  }
+}
