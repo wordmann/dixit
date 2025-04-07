@@ -3,36 +3,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const path_1 = __importDefault(require("path"));
+const express = require('express');
+const path = require('path');
+const http = require('http');
+const ws_1 = __importDefault(require("ws"));
 const port = 19609;
 const dirname = '/home/public/dixit';
-const app = (0, express_1.default)();
+const app = express();
+const server = http.createServer(app);
 // Serve static files from the ./client directory
-app.use(express_1.default.static(path_1.default.join(dirname, 'client')));
-const SECRET_KEY = "0x4AAAAAAA48Fs8NvyurfxGqhyrPd15WePg";
-async function handlePost(request) {
-    const body = await request.formData();
-    // Turnstile injects a token in "cf-turnstile-response".
-    const token = body.get("cf-turnstile-response");
-    const ip = request.headers.get("CF-Connecting-IP");
-    // Validate the token by calling the
-    // "/siteverify" API endpoint.
-    let formData = new FormData();
-    formData.append("secret", SECRET_KEY);
-    formData.append("response", token);
-    formData.append("remoteip", ip);
-    const url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
-    const result = await fetch(url, {
-        body: formData,
-        method: "POST",
-    });
-    const outcome = await result.json();
-    if (outcome.success) {
-        // ...
+app.use(express.static(path.join(dirname, 'client')));
+class User {
+    username;
+    socket;
+    score = 0;
+    hand = [];
+    constructor(socket, username) {
+        this.username = username;
+        this.socket = socket;
+    }
+    addcard(card) {
+        this.hand.push(card);
+    }
+    resethand() {
+        this.hand = [];
+    }
+    gethand() {
+        return this.hand;
+    }
+    removecard(i) {
+        this.hand.splice(i, 1);
     }
 }
-app.listen(port, () => {
+let userlist = [];
+const wss = new ws_1.default.Server({ port: 19709 });
+wss.on('connection', (ws) => {
+    console.log('New client connected');
+    ws.on('message', (message) => {
+        userlist.push(new User(ws, message));
+    });
+    ws.on('close', () => {
+        console.log('Client disconnected');
+    });
+});
+server.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
     //palle culo  
 });
